@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dog Pictures Gallery</title>
+  <style>
+    :root{
+      --gap: 12px;
+      --bg: #f7f7f8;
+      --card: #ffffff;
+      --accent: #2b7a78;
+    }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg);
+      color:#111;
+      display:flex;
+      min-height:100vh;
+      flex-direction:column;
+      align-items:center;
+      padding:28px;
+      box-sizing:border-box;
+    }
+    header{ text-align:center; margin-bottom:18px; }
+    h1{ margin:0; font-size:1.6rem; }
+    p.lead{ margin:6px 0 0; color:#444; font-size:0.95rem; }
+
+    /* gallery */
+    .gallery{
+      width:100%;
+      max-width:1100px;
+      display:grid;
+      gap:var(--gap);
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    }
+    .card{
+      background:var(--card);
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow: 0 6px 18px rgba(15,20,25,0.06);
+      display:flex;
+      flex-direction:column;
+      cursor:zoom-in;
+    }
+    .card img{
+      width:100%;
+      height:190px;
+      object-fit:cover;
+      display:block;
+      transition:transform .35s ease;
+    }
+    .card:hover img{ transform:scale(1.04); }
+    .meta{
+      padding:10px 12px;
+      font-size:0.9rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+    .meta .title{ font-weight:600; }
+    .meta small{ color:#666; }
+
+    /* Lightbox */
+    .lightbox{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,0.6);
+      z-index:9999;
+      padding:20px;
+    }
+    .lightbox.active{ display:flex; }
+    .lightbox img{
+      max-width:calc(100% - 40px);
+      max-height:calc(100% - 80px);
+      border-radius:10px;
+      box-shadow:0 10px 40px rgba(0,0,0,0.6);
+    }
+    .close-btn{
+      position:absolute;
+      top:18px;
+      right:18px;
+      background:rgba(255,255,255,0.95);
+      border-radius:999px;
+      padding:6px 10px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    footer{ margin-top:18px; color:#666; font-size:0.9rem; }
+    @media (max-width:420px){
+      .card img{ height:150px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Dog Pictures — Gallery</h1>
+    <p class="lead">Cute dog photos. Click any image to view larger.</p>
+  </header>
+
+  <main class="gallery" id="gallery">
+    <!-- Using placedog.net as a simple placeholder image source -->
+    <figure class="card" data-src="https://placedog.net/800/600?id=1">
+      <img src="https://placedog.net/400/300?id=1" alt="Dog 1 - happy" loading="lazy">
+      <figcaption class="meta"><span class="title">Happy Pup</span><small>id=1</small></figcaption>
+    </figure>
+
+    <figure class="card" data-src="https://placedog.net/800/600?id=2">
+      <img src="https://placedog.net/400/300?id=2" alt="Dog 2 - playful" loading="lazy">
+      <figcaption class="meta"><span class="title">Playful</span><small>id=2</small></figcaption>
+    </figure>
+
+    <figure class="card" data-src="https://placedog.net/800/600?id=3">
+      <img src="https://placedog.net/400/300?id=3" alt="Dog 3 - sleepy" loading="lazy">
+      <figcaption class="meta"><span class="title">Sleepy</span><small>id=3</small></figcaption>
+    </figure>
+
+    <figure class="card" data-src="https://placedog.net/800/600?id=4">
+      <img src="https://placedog.net/400/300?id=4" alt="Dog 4 - outdoors" loading="lazy">
+      <figcaption class="meta"><span class="title">Outdoorsy</span><small>id=4</small></figcaption>
+    </figure>
+
+    <figure class="card" data-src="https://placedog.net/800/600?id=5">
+      <img src="https://placedog.net/400/300?id=5" alt="Dog 5 - tongue out" loading="lazy">
+      <figcaption class="meta"><span class="title">Silly Tongue</span><small>id=5</small></figcaption>
+    </figure>
+
+    <figure class="card" data-src="https://placedog.net/800/600?id=6">
+      <img src="https://placedog.net/400/300?id=6" alt="Dog 6 - closeup" loading="lazy">
+      <figcaption class="meta"><span class="title">Closeup</span><small>id=6</small></figcaption>
+    </figure>
+
+    <figure class="card" data-src="https://placedog.net/800/600?id=7">
+      <img src="https://placedog.net/400/300?id=7" alt="Dog 7 - energetic" loading="lazy">
+      <figcaption class="meta"><span class="title">Energetic</span><small>id=7</small></figcaption>
+    </figure>
+
+    <figure class="card" data-src="https://placedog.net/800/600?id=8">
+      <img src="https://placedog.net/400/300?id=8" alt="Dog 8 - calm" loading="lazy">
+      <figcaption class="meta"><span class="title">Calm</span><small>id=8</small></figcaption>
+    </figure>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="close-btn" id="closeBtn">✕</div>
+    <img id="lightboxImg" src="" alt="Large dog image">
+  </div>
+
+  <footer>
+    Tip: To use your own images, replace the `src` attributes of the <code>&lt;img&gt;</code> tags with your image URLs.
+  </footer>
+
+  <script>
+    // Simple lightbox
+    const gallery = document.getElementById('gallery');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const closeBtn = document.getElementById('closeBtn');
+
+    gallery.addEventListener('click', (e) => {
+      // find the nearest figure.card
+      const card = e.target.closest('figure.card');
+      if (!card) return;
+      const src = card.getAttribute('data-src') || card.querySelector('img').src;
+      lightboxImg.src = src;
+      lightbox.setAttribute('aria-hidden','false');
+      lightbox.classList.add('active');
+    });
+
+    closeBtn.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+      lightbox.setAttribute('aria-hidden','true');
+      lightboxImg.src = '';
+    });
+
+    // close on background click
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        closeBtn.click();
+      }
+    });
+
+    // keyboard close (esc)
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        closeBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>
+
