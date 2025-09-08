@@ -5,7 +5,7 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy site files into nginx html directory
-COPY ./dogs.html /usr/share/nginx/html/index.html
+COPY . /usr/share/nginx/html/index.html
 # If you have an images folder, copy it too
 COPY . /usr/share/nginx/html/images
 
