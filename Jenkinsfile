@@ -43,7 +43,7 @@ pipeline {
             steps {
                 sh '''
                     docker service update --image $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG dog-gallery || \
-                    docker service create --name dog-gallery -p 8080:80 $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG
+                    docker service create --name dog-gallery -p 8089:80 $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG
                 '''
             }
         }
