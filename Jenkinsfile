@@ -1,11 +1,12 @@
 pipeline {
     agent any
 
-    environment {
-        // Docker Hub username
-        DOCKER_HUB_USER = "venkat-369"          // mee Docker Hub username ikkada pettandi
-        IMAGE_NAME = "dog-gallery"              // image name
-        IMAGE_TAG = "latest"
+ environment {
+    DOCKER_HUB_USER = "chikkalavenkatasai"   // your actual Docker Hub username
+    IMAGE_NAME = "dog-gallery"
+    IMAGE_TAG = "latest"
+}
+
     }
 
     stages {
