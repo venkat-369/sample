@@ -12,7 +12,8 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/venkat-369/sample.git'
+    url: 'https://github.com/venkat-369/sample.git'
+
             }
         }
 
