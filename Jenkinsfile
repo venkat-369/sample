@@ -17,18 +17,16 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh '''
-                        docker build -t $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG .
-                    '''
-                }
+                sh '''
+                    docker build -t $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG .
+                '''
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'docker-hub',   // Jenkins credentials ID (create in Jenkins)
+                    credentialsId: 'docker-hub',   // Jenkins credentials ID
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
@@ -43,17 +41,15 @@ pipeline {
 
         stage('Deploy to Docker Swarm') {
             steps {
-                script {
-                    sh '''
-                        docker service update --image $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG dog-gallery || \
-                        docker service create --name dog-gallery -p 8080:80 $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG
-                    '''
-                }
+                sh '''
+                    docker service update --image $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG dog-gallery || \
+                    docker service create --name dog-gallery -p 8080:80 $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG
+                '''
             }
         }
     }
+}
 
-    
 
     
 
